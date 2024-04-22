@@ -190,8 +190,6 @@ int abrir_txt(Agenda *agenda, int contAgenda){
     fgets(ndi_tmp, sizeof(ndi_tmp), fptr);
     ndi_tmp[strcspn(ndi_tmp, ",")] = '\0';
 
-    strncpy(agenda[contAgenda].ndi, ndi_tmp, sizeof(agenda[contAgenda].ndi));
-
     if (!valida_ndi(ndi_tmp, agenda, contAgenda))
     {
       return -1;
@@ -219,7 +217,19 @@ int abrir_txt(Agenda *agenda, int contAgenda){
     return contAgenda ;
  }
 
+int guardar_txt(Agenda *agenda, int contAgenda){
+    int i=0;
+    FILE* fptr;
 
+    fptr=fopen("Usuarios.txt", "w");
+
+    for(i;i>=contAgenda;i++){
+        
+    fputs();
+    
+    }
+    fclose(fptr);
+}
 
 int main()
 {
@@ -348,6 +358,7 @@ int main()
 
             case 7:
                 printf("+ + Guardar cambios + +\n");
+                guardar_txt(agenda, contAgenda);
 
             break;
 
