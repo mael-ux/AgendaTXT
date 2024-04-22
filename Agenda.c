@@ -213,7 +213,8 @@ int abrir_txt(Agenda *agenda, int contAgenda){
     else{
         printf("No se pudo abrir el archivo");
     }
-
+    
+    fclose(fptr);// Esta linea vacia el txt despues de guardar sus datos 
     return contAgenda ;
  }
 
@@ -225,10 +226,15 @@ int guardar_txt(Agenda *agenda, int contAgenda){
 
     for(i;i>=contAgenda;i++){
         
-    fputs();
+    fputs(agenda[i].ndi, fptr);
+    fputs(",",fptr);
+    fputs(agenda[i].nombre, fptr);
+    fputs(",",fptr);
+    fputs(agenda[i].correo, fptr);
+    fputs(",",fptr);
+    puts(agenda[i].telefono, fptr);
     
     }
-    fclose(fptr);
 }
 
 int main()
