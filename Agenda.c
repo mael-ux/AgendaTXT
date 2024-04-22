@@ -16,27 +16,6 @@ typedef struct
     char telefono[T_PHONE];
 }Agenda;
 
-void abrir_txt(){
-
-    FILE*fptr;
-
-    fptr = fopen("Usuarios.txt", "r");
-
-    char content[1000];
-
-    if (fptr != NULL){
-        while (fgets(content, 1000, fptr)){
-            printf("%s", content);
-        }
-    }
-    else{
-        printf("No se pudo abrir el archivo");
-    }
-
-    return 0;
-}
-
-
 int valida_ndi(char *ndi_aux, Agenda *agenda, int contAgenda)
 {
     int band = 0;
@@ -195,6 +174,52 @@ int eliminar_usuario_2(Agenda *agenda, int contAgenda, int pos)
     return contAgenda - 1;
 }
 
+int abrir_txt(Agenda *agenda, int contAgenda){
+
+    char ndi_tmp[T_NDI];
+    int band=30;
+
+    FILE*fptr;
+
+    fptr = fopen("Usuarios.txt", "r");
+    
+    if (fptr != NULL){
+       
+        do{
+        
+    fgets(ndi_tmp, sizeof(ndi_tmp), fptr);
+    ndi_tmp[strcspn(ndi_tmp, ",")] = '\0';
+
+    strncpy(agenda[contAgenda].ndi, ndi_tmp, sizeof(agenda[contAgenda].ndi));
+
+    if (!valida_ndi(ndi_tmp, agenda, contAgenda))
+    {
+      return -1;
+    }
+
+    strncpy(agenda[contAgenda].ndi, ndi_tmp, sizeof(agenda[contAgenda].ndi));
+
+    fgets(agenda[contAgenda].nombre, sizeof(agenda[contAgenda].nombre), fptr);
+    agenda[contAgenda].nombre[strcspn(agenda[contAgenda].nombre, ",")] = '\0';
+
+    fgets(agenda[contAgenda].correo, sizeof(agenda[contAgenda].correo), fptr);
+    agenda[contAgenda].correo[strcspn(agenda[contAgenda].correo, ",")] = '\0';
+
+    fgets(agenda[contAgenda].telefono, sizeof(agenda[contAgenda].telefono), fptr);
+    agenda[contAgenda].telefono[strcspn(agenda[contAgenda].telefono, "\n")] = '\0';
+        contAgenda ++;
+        band--;
+        }
+        while (band>0);
+        }
+    else{
+        printf("No se pudo abrir el archivo");
+    }
+
+    return contAgenda ;
+ }
+
+
 
 int main()
 {
@@ -307,7 +332,18 @@ int main()
 
             case 6:
                 printf("+ + Abrir archivo + +\n");
-                abrir_txt();
+                if (contAgenda < T_AGENDA){
+                    retorno = abrir_txt(agenda, contAgenda);
+                    if ( retorno == -1)
+                    {
+                        printf("El NDI ya existe\n");
+                    }else{
+                        contAgenda = retorno;
+                        printf("Usuario %i, agregado\n", contAgenda);
+                    }
+                }else{
+                    printf("La agenda tiene su maximo registro de usuarios");
+                }
             break;
 
             case 7:
