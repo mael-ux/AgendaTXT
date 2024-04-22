@@ -16,6 +16,26 @@ typedef struct
     char telefono[T_PHONE];
 }Agenda;
 
+void abrir_txt(){
+
+    FILE*fptr;
+
+    fptr = fopen("Usuarios.txt", "r");
+
+    char content[1000];
+
+    if (fptr != NULL){
+        while (fgets(content, 1000, fptr)){
+            printf("%s", content);
+        }
+    }
+    else{
+        printf("No se pudo abrir el archivo");
+    }
+
+    return 0;
+}
+
 
 int valida_ndi(char *ndi_aux, Agenda *agenda, int contAgenda)
 {
@@ -85,6 +105,7 @@ int agregar_usuario(Agenda *agenda, int contAgenda)
     printf("Elementos iterados: %i\n", i);
 
     if (!band)
+
     {
         return -1;
     }
@@ -193,6 +214,8 @@ int main()
         printf("[3] Busca usuario \n");
         printf("[4] Muestra todos \n");
         printf("[5] Elimina usuario \n");
+        printf("[6] Abrir archivo \n");
+        printf("[7] Guardar cambios \n");
         printf("[8] Salir del programa \n");
         printf("Ingresa opcion: ");
 
@@ -280,6 +303,16 @@ int main()
                     printf("No se encontro registro para eliminar\n");
                 }
                 // mostrar_Archivo();
+            break;
+
+            case 6:
+                printf("+ + Abrir archivo + +\n");
+                abrir_txt();
+            break;
+
+            case 7:
+                printf("+ + Guardar cambios + +\n");
+
             break;
 
             case 8:
