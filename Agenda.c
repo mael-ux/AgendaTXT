@@ -187,15 +187,8 @@ int abrir_txt(Agenda *agenda, int contAgenda){
        
         do{
         
-    fgets(ndi_tmp, sizeof(ndi_tmp), fptr);
+    fgets(agenda[contAgenda].ndi, sizeof(agenda[contAgenda].ndi), fptr);
     ndi_tmp[strcspn(ndi_tmp, ",")] = '\0';
-
-    if (!valida_ndi(ndi_tmp, agenda, contAgenda))
-    {
-      return -1;
-    }
-
-    strncpy(agenda[contAgenda].ndi, ndi_tmp, sizeof(agenda[contAgenda].ndi));
 
     fgets(agenda[contAgenda].nombre, sizeof(agenda[contAgenda].nombre), fptr);
     agenda[contAgenda].nombre[strcspn(agenda[contAgenda].nombre, ",")] = '\0';
@@ -232,7 +225,8 @@ int guardar_txt(Agenda *agenda, int contAgenda){
     fputs(",",fptr);
     fputs(agenda[i].correo, fptr);
     fputs(",",fptr);
-    puts(agenda[i].telefono, fptr);
+    fputs(agenda[i].telefono, fptr);
+    fputs("\n",fptr);
     
     }
 }
