@@ -192,24 +192,27 @@ int abrir_txt(Agenda *agenda, int contAgenda) {
     fclose(fptr);
     return contAgenda;
 }
-int guardar_txt(Agenda *agenda, int contAgenda){
-    int i=0;
-    FILE* fptr;
+int guardar_txt(Agenda *agenda, int contAgenda) {
+    FILE *fptr; // Corrección en la declaración del puntero FILE
 
-    fptr=fopen("Usuarios.txt", "w");
-
-    for(i;i>=contAgenda;i++){
-
-    fputs(agenda[i].ndi, fptr);
-    fputs(",",fptr);
-    fputs(agenda[i].nombre, fptr);
-    fputs(",",fptr);
-    fputs(agenda[i].correo, fptr);
-    fputs(",",fptr);
-    fputs(agenda[i].telefono, fptr);
-    fputs("\n",fptr);
-
+    // Abre el archivo para escribir, si no se puede abrir, devuelve -1
+    fptr = fopen("Usuarios.txt", "w");
+    if (fptr == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return -1;
     }
+
+    // Escribe los datos de la agenda en el archivo
+    for (int i = 0; i < contAgenda; i++) {
+        fprintf(fptr, "%s,", agenda[i].ndi);
+        fprintf(fptr, "%s,", agenda[i].nombre);
+        fprintf(fptr, "%s,", agenda[i].correo);
+        fprintf(fptr, "%s\n", agenda[i].telefono); // Cambiado "\n" a "%s\n"
+    }
+
+    // Cierra el archivo
+    fclose(fptr);
+    return 0;
 }
 
 int main()
