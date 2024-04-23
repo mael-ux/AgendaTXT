@@ -2,7 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define T_NDI 3
+#define T_NDI 4
 #define T_NAME 50
 #define T_MAIL 50
 #define T_PHONE 10
@@ -174,43 +174,24 @@ int eliminar_usuario_2(Agenda *agenda, int contAgenda, int pos)
     return contAgenda - 1;
 }
 
-int abrir_txt(Agenda *agenda, int contAgenda){
-
-    char ndi_tmp[T_NDI];
-    int band=30;
-
-    FILE*fptr;
-
+int abrir_txt(Agenda *agenda, int contAgenda) {
+    FILE *fptr;
     fptr = fopen("Usuarios.txt", "r");
-    
-    if (fptr != NULL){
-       
-        do{
-        
-    fgets(agenda[contAgenda].ndi, sizeof(agenda[contAgenda].ndi), fptr);
-    ndi_tmp[strcspn(ndi_tmp, ",")] = '\0';
 
-    fgets(agenda[contAgenda].nombre, sizeof(agenda[contAgenda].nombre), fptr);
-    agenda[contAgenda].nombre[strcspn(agenda[contAgenda].nombre, ",")] = '\0';
-
-    fgets(agenda[contAgenda].correo, sizeof(agenda[contAgenda].correo), fptr);
-    agenda[contAgenda].correo[strcspn(agenda[contAgenda].correo, ",")] = '\0';
-
-    fgets(agenda[contAgenda].telefono, sizeof(agenda[contAgenda].telefono), fptr);
-    agenda[contAgenda].telefono[strcspn(agenda[contAgenda].telefono, "\n")] = '\0';
-        contAgenda ++;
-        band--;
-        }
-        while (band>0);
-        }
-    else{
-        printf("No se pudo abrir el archivo");
+    if (fptr == NULL) {
+        printf("No se pudo abrir el archivo.\n");
+        return contAgenda;
     }
-    
-    fclose(fptr);// Esta linea vacia el txt despues de guardar sus datos 
-    return contAgenda ;
- }
 
+    while (contAgenda < T_AGENDA && fscanf(fptr, "%3[^,],%49[^,],%49[^,],%9[^\n]%*c",
+           agenda[contAgenda].ndi, agenda[contAgenda].nombre,
+           agenda[contAgenda].correo, agenda[contAgenda].telefono) == 4) {
+        contAgenda++;
+    }
+
+    fclose(fptr);
+    return contAgenda;
+}
 int guardar_txt(Agenda *agenda, int contAgenda){
     int i=0;
     FILE* fptr;
@@ -218,7 +199,7 @@ int guardar_txt(Agenda *agenda, int contAgenda){
     fptr=fopen("Usuarios.txt", "w");
 
     for(i;i>=contAgenda;i++){
-        
+
     fputs(agenda[i].ndi, fptr);
     fputs(",",fptr);
     fputs(agenda[i].nombre, fptr);
@@ -227,7 +208,7 @@ int guardar_txt(Agenda *agenda, int contAgenda){
     fputs(",",fptr);
     fputs(agenda[i].telefono, fptr);
     fputs("\n",fptr);
-    
+
     }
 }
 
