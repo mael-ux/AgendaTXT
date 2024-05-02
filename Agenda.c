@@ -214,7 +214,23 @@ int guardar_txt(Agenda *agenda, int contAgenda) {
     fclose(fptr);
     return 0;
 }
+int ordenar_agenda(Agenda *agenda){
+	int i,j,cont;
+	char aux[T_NDI];
 
+	for (cont=0;i<T_AGENDA;cont++){
+		j=1;
+		for (i=0;i<(T_AGENDA-1);i++){
+			if(agenda[i].ndi>agenda[j].ndi){
+                strcpy(aux, agenda[i].ndi);
+                strcpy(agenda[i].ndi, agenda[j].ndi);
+                strcpy(agenda[j].ndi, aux);
+			}j++;
+		}
+	}
+
+	return 0;
+}
 int main()
 {
     Agenda agenda[T_AGENDA];
@@ -236,6 +252,8 @@ int main()
         printf("[6] Abrir archivo \n");
         printf("[7] Guardar cambios \n");
         printf("[8] Salir del programa \n");
+        printf("[9] Ordenar la agenda \n");
+
         printf("Ingresa opcion: ");
 
         scanf("%i", &opc);
@@ -351,7 +369,19 @@ int main()
 
             break;
 
-            default: printf("Eleccion fuera de rango");
+            case 9:
+            	printf("+ + Ordenar agenda + +\n");
+            	ordenar_agenda(agenda);
+            	if (contAgenda > 0)
+                {
+                    mostrar_todos(agenda, contAgenda);
+                }else{
+                    printf("No hay usuarios registrados\n");
+                }
+             break;
+
+             default: printf("Eleccion fuera de rango");
+
         } //Fin del switch
     }while (opc != 8);
 
