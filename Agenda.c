@@ -228,7 +228,7 @@ int guardar_txt(Agenda *agenda, int contAgenda) {
     FILE *fptr; // Corrección en la declaración del puntero FILE
 
     // Abre el archivo para escribir, si no se puede abrir, devuelve -1
-    fptr = fopen("agenda_datos_test.txt", "w");
+    fptr = fopen("Usuarios.txt", "w");
     if (fptr == NULL) {
         printf("Error al abrir el archivo.\n");
         return -1;
