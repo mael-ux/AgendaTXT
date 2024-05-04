@@ -2,15 +2,19 @@
 #include <string.h>
 #include <ctype.h>
 
-#define T_NDI 4
+#define T_NDI 5
 #define T_NAME 50
 #define T_MAIL 50
 #define T_PHONE 10
 #define T_AGENDA 30
 
+//Carlos Emilio González Urías
+//Andrea Alexandra Arias Villaseñor
+//Anahí Ramírez Rodríguez
+//Rodrigo Mael Vizcarra Morquecho
 typedef struct
 {
-    char ndi[T_NDI];
+    char ndi[T_NDI ];
     char nombre[T_NAME];
     char correo[T_MAIL];
     char telefono[T_PHONE];
@@ -176,7 +180,7 @@ int eliminar_usuario_2(Agenda *agenda, int contAgenda, int pos)
 
 int abrir_txt(Agenda *agenda, int contAgenda) {
     FILE *fptr;
-    fptr = fopen("Usuarios.txt", "r");
+    fptr = fopen("agenda_datos_test.txt", "r");
 
     if (fptr == NULL) {
         printf("No se pudo abrir el archivo.\n");
@@ -196,7 +200,7 @@ int guardar_txt(Agenda *agenda, int contAgenda) {
     FILE *fptr; // Corrección en la declaración del puntero FILE
 
     // Abre el archivo para escribir, si no se puede abrir, devuelve -1
-    fptr = fopen("Usuarios.txt", "w");
+    fptr = fopen("agenda_datos_test.txt", "w");
     if (fptr == NULL) {
         printf("Error al abrir el archivo.\n");
         return -1;
@@ -214,23 +218,24 @@ int guardar_txt(Agenda *agenda, int contAgenda) {
     fclose(fptr);
     return 0;
 }
-int ordenar_agenda(Agenda *agenda){
-	int i,j,cont;
-	char aux[T_NDI];
 
-	for (cont=0;i<T_AGENDA;cont++){
-		j=1;
-		for (i=0;i<(T_AGENDA-1);i++){
-			if(agenda[i].ndi>agenda[j].ndi){
-                strcpy(aux, agenda[i].ndi);
-                strcpy(agenda[i].ndi, agenda[j].ndi);
-                strcpy(agenda[j].ndi, aux);
-			}j++;
+int ordenar_agenda(Agenda *agenda, int contAgenda){
+	int i,j,cont;
+
+	for (cont=0;cont<contAgenda;cont++){
+		for (i=0;i<contAgenda-1;i++){
+			if(atoi(agenda[i].ndi)>atoi(agenda[i+1].ndi)){
+                Agenda aux=agenda[i];
+                agenda[i]=agenda[i+1];
+                agenda[i+1]=aux;
+			}
 		}
 	}
+    mostrar_todos(agenda,contAgenda);
 
-	return 0;
+    return 0;
 }
+
 int main()
 {
     Agenda agenda[T_AGENDA];
@@ -253,7 +258,6 @@ int main()
         printf("[7] Guardar cambios \n");
         printf("[8] Salir del programa \n");
         printf("[9] Ordenar la agenda \n");
-
         printf("Ingresa opcion: ");
 
         scanf("%i", &opc);
@@ -371,17 +375,10 @@ int main()
 
             case 9:
             	printf("+ + Ordenar agenda + +\n");
-            	ordenar_agenda(agenda);
-            	if (contAgenda > 0)
-                {
-                    mostrar_todos(agenda, contAgenda);
-                }else{
-                    printf("No hay usuarios registrados\n");
-                }
+            	ordenar_agenda(agenda, contAgenda);
              break;
 
-             default: printf("Eleccion fuera de rango");
-
+            default: printf("Eleccion fuera de rango");
         } //Fin del switch
     }while (opc != 8);
 
