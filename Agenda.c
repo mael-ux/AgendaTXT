@@ -2,17 +2,19 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <windows.h>
 
 #define T_NDI 5
 #define T_NAME 50
 #define T_MAIL 50
 #define T_PHONE 10
-#define T_AGENDA 30
+#define T_AGENDA 300
 
 //Carlos Emilio González Urías
 //Andrea Alexandra Arias Villaseñor
 //Anahí Ramírez Rodríguez
 //Rodrigo Mael Vizcarra Morquecho
+//Ana Sofia Verdin Amezcua
 typedef struct
 {
     char ndi[T_NDI ];
